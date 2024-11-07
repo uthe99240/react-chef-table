@@ -1,39 +1,41 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
-const WantToCook = () => {
+const WantToCook = ({wantcook,handleprepareCook}) => {
     return (
         <div>
-            <h6 className='text-xl text-center font-bold'>Want to cook : </h6>
+            <h6 className='text-xl text-center font-bold'>Want to cook : {wantcook.length}</h6>
             <hr className='my-3 mx-12' />
-            <table className='text-gray-500 text-xs w-full text-center border-separate border-spacing-y-4'>
+            <table className='text-gray-500 text-xs w-full text-center'>
                 <thead>
-                    <tr>
-                        <th className='px-4'>#</th>
-                        <th className='px-4'>Name</th>
-                        <th className='px-4'>Time</th>
-                        <th className='px-4'>Calories</th>
-                        <th className='px-4'></th>
+                    <tr className="border-collapse border-b-2 border-gray-300">
+                        <th className='p-2'>#</th>
+                        <th className='p-2'>Name</th>
+                        <th className='p-2'>Time</th>
+                        <th className='p-2'>Calories</th>
+                        <th className='p-2'></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className='px-4'>1</td>
-                        <td className='px-4'>Chicken Caesar</td>
-                        <td className='px-4'>20 minutes</td>
-                        <td className='px-4'>400 calories</td>
-                        <td><button className='py-2 px-6 text-black font-bold rounded-full bg-green-400'>Preparing</button></td>
-                    </tr>
-                    <tr>
-                        <td className='px-4'>2</td>
-                        <td className='px-4'>Chicken Caesar</td>
-                        <td className='px-4'>20 minutes</td>
-                        <td className='px-4'>400 calories</td>
-                        <td><button className='py-2 px-6 text-black font-bold rounded-full bg-green-400'>Preparing</button></td>
-                    </tr>
+                    {
+                        wantcook.map((item,index) => (
+                            <tr key={item.recipe_id} className="border-collapse border-b-2 border-gray-300">
+                            <td className='p-2'>{index+1}</td>
+                            <td className='p-2'>{item.recipe_name}</td>
+                            <td className='p-2'>{item.preparing_time} minutes</td>
+                            <td className='p-2'>{item.calories} calories</td>
+                            <td><button className='py-2 px-6 text-black font-bold rounded-full bg-green-400' onClick={()=> {handleprepareCook(item)}}>Preparing</button></td>
+                        </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>
     );
+};
+
+WantToCook.propTypes = {
+    wantcook: PropTypes.array.isRequired,
+    handleprepareCook: PropTypes.func.isRequired,
 };
 
 export default WantToCook;

@@ -1,39 +1,45 @@
+import PropTypes from "prop-types";
 
-const Cook = () => {
+const Cook = ({ preparecook,totalcalorie,totaltime }) => {
+
     return (
         <div className='mt-5'>
-            <h6 className='text-xl text-center font-bold'>Currently cooking : </h6>
+            <h6 className='text-xl text-center font-bold'>Currently cooking : {preparecook.length} </h6>
             <hr className='my-3 mx-12' />
-            <table className='text-gray-500 text-xs w-full text-center border-separate border-spacing-y-4'>
+            <table className='text-gray-500 text-xs w-full text-center'>
                 <thead>
-                    <tr>
-                        <th className='px-4'>#</th>
-                        <th className='px-4'>Name</th>
-                        <th className='px-4'>Time</th>
-                        <th className='px-4'>Calories</th>
+                    <tr className="border-collapse border-b-2 border-gray-300">
+                        <th className='p-2'>#</th>
+                        <th className='p-2'>Name</th>
+                        <th className='p-2'>Time</th>
+                        <th className='p-2'>Calories</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className='px-4'>1</td>
-                        <td className='px-4'>Chicken Caesar</td>
-                        <td className='px-4'>20 minutes</td>
-                        <td className='px-4'>400 calories</td>
-                    </tr>
-                    <tr>
-                        <td className='px-4'>2</td>
-                        <td className='px-4'>Chicken Caesar</td>
-                        <td className='px-4'>20 minutes</td>
-                        <td className='px-4'>400 calories</td>
-                    </tr>
+                    {
+                        preparecook.map((item, index) => (
+                            <tr key={item.recipe_id} className="border-collapse border-b-2 border-gray-300">
+                                <td className='p-2'>{index + 1}</td>
+                                <td className='p-2'>{item.recipe_name}</td>
+                                <td className='p-2'>{item.preparing_time} minutes</td>
+                                <td className='p-2'>{item.calories} calories</td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
-            <div className='flex justify-end text-xs text-gray-800'>
-                <p className='me-3'>Total Time = 45 minutes</p>
-                <p>Total Calories = 1050 calories</p>
+            <div className='flex flex-col items-end text-xs text-gray-800 mt-3'>
+                <p>Total Time = {totaltime} minutes</p>
+                <p>Total Calories = {totalcalorie} calories</p>
             </div>
         </div>
     );
+};
+
+Cook.propTypes = {
+    preparecook: PropTypes.array.isRequired,
+    totaltime: PropTypes.number.isRequired,
+    totalcalorie: PropTypes.number.isRequired,
 };
 
 export default Cook;
