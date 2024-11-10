@@ -4,6 +4,7 @@ import WantToCook from '../WantToCook/WantToCook';
 import Cook from '../Cook/Cook';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addToLS, getStoredCart, removeToLS } from '../../utilities/localstorage';
 
 
 const Receipes = () => {
@@ -20,11 +21,17 @@ const Receipes = () => {
             .then(data => setRecipes(data));
     }, [])
 
+    useEffect(() => {
+        const storedcart = getStoredCart();
+        setWantcook(storedcart);
+    }, [])
+
     const wantToCook = item => {
         const existItem = wantcook.find(witem => witem.recipe_id === item.recipe_id);
         if (existItem) {
             toast("Item is already added!");
         } else {
+            addToLS(item);
             const cookItem = [...wantcook, item];
             setWantcook(cookItem);
             toast("Item added to the list!");
@@ -35,6 +42,7 @@ const Receipes = () => {
         const prepareItem = [...preparecook, item];
         setPreparecook(prepareItem);
         const remainItem = wantcook.filter(witem => witem.recipe_id !== item.recipe_id);
+        removeToLS(item);
         setWantcook(remainItem);
         handleTotal(item);
     }
